@@ -3,7 +3,6 @@
 A machine learning project for early prediction of Gestational Diabetes Mellitus (GDM).  
 This system aims to identify high-risk patients using clinical and demographic data to support early intervention.
 
----
 
 ## 📌 Overview
 
@@ -15,7 +14,6 @@ However, at this stage, adverse effects may have already developed.
 Machine learning models enable **early prediction of GDM risk using non-invasive clinical data**, allowing timely intervention and improved healthcare outcomes.  
 (Research shows ML models can achieve high predictive performance, e.g., AUC up to 0.89 using clinical features)  
 
----
 
 ## 🎯 Objectives
 
@@ -24,7 +22,6 @@ Machine learning models enable **early prediction of GDM risk using non-invasive
 - Compare multiple classification models  
 - Support early diagnosis and preventive healthcare strategies  
 
----
 
 ## 🧠 Key Features
 
@@ -33,7 +30,6 @@ Machine learning models enable **early prediction of GDM risk using non-invasive
 - Comparison of multiple machine learning models  
 - Data-driven risk stratification  
 
----
 
 ## 🗂️ Dataset
 
@@ -49,7 +45,6 @@ The dataset includes medical and demographic information of pregnant women:
 
 These variables are commonly used in GDM prediction studies and are clinically relevant risk factors.
 
----
 
 ## ⚙️ Methodology
 
@@ -76,7 +71,6 @@ The project follows a standard machine learning pipeline:
    - F1-score  
    - ROC-AUC  
 
----
 
 ## 📊 Model Evaluation
 
@@ -89,7 +83,6 @@ Model performance is evaluated using classification metrics:
 
 Machine learning models are widely used in healthcare prediction tasks due to their ability to identify complex patterns in clinical data.
 
----
 
 ## 🛠️ Tech Stack
 
@@ -99,7 +92,6 @@ Machine learning models are widely used in healthcare prediction tasks due to th
 - Matplotlib / Seaborn  
 - Jupyter Notebook  
 
----
 
 ## 📁 Project Structure
 
@@ -114,7 +106,6 @@ Gestational-Diabetes-Prediction/
 └── README.md
 ```
 
----
 
 ## 🚀 Results
 
@@ -122,7 +113,6 @@ Gestational-Diabetes-Prediction/
 - Identified key risk factors such as BMI and glucose level  
 - Demonstrated the feasibility of early prediction using ML  
 
----
 
 ## 📌 Limitations
 
@@ -130,7 +120,6 @@ Gestational-Diabetes-Prediction/
 - Lack of longitudinal patient data  
 - Model generalization requires external validation  
 
----
 
 ## 🔧 Future Work
 
@@ -138,13 +127,16 @@ Gestational-Diabetes-Prediction/
 - Incorporate real-world hospital data  
 - Deploy as a clinical decision support system  
 
----
 
 ## 👤 Author
 
-Eunsu Park (Data Science Graduate Student)
+Park, Eunsoo \
+Alamen, Abdalla \
+Wicaksono, Pramudya \
+Onishi, Rei \
+Janga, Ritesh
 
----
+
 
 ## ✔️ Summary
 
