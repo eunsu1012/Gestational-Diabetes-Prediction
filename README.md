@@ -1,143 +1,144 @@
-# 🤰 Gestational Diabetes Prediction
+# 🤰 Diabetes Risk Prediction for Gestational Diabetes Screening
 
-A machine learning project for early prediction of Gestational Diabetes Mellitus (GDM).  
-This system aims to identify high-risk patients using clinical and demographic data to support early intervention.
+A machine learning project for early diabetes risk prediction, framed in the context of Gestational Diabetes Mellitus (GDM) screening.  
+Developed as a team project for CIS690 Statistical Inference Packages at Minnesota State University, Mankato, using **R**.
 
 
 ## 📌 Overview
 
-Gestational Diabetes Mellitus (GDM) is a form of glucose intolerance that occurs during pregnancy and can lead to serious complications for both mother and child.
+Gestational Diabetes Mellitus (GDM) is a pregnancy complication that can lead to serious risks for both mother and child, such as pre-eclampsia, macrosomia, and future type 2 diabetes.
 
-GDM is typically diagnosed between 24–28 weeks of pregnancy using an oral glucose tolerance test (OGTT).  
-However, at this stage, adverse effects may have already developed.
+Missing a high-risk patient can delay treatment, so this project focuses on **recall-oriented evaluation** and compares statistical and machine learning models for diabetes risk screening.
 
-Machine learning models enable **early prediction of GDM risk using non-invasive clinical data**, allowing timely intervention and improved healthcare outcomes.  
-(Research shows ML models can achieve high predictive performance, e.g., AUC up to 0.89 using clinical features)  
+> **Note on the dataset:** This project uses the **Pima Indians Diabetes Dataset**, where the target is a diabetes diagnosis among women aged 21+, not a confirmed GDM diagnosis. Results should be read as a diabetes screening study in a GDM-related context.
 
 
 ## 🎯 Objectives
 
-- Predict the risk of gestational diabetes using machine learning  
-- Identify key clinical features contributing to GDM  
-- Compare multiple classification models  
-- Support early diagnosis and preventive healthcare strategies  
+- Predict diabetes risk using clinical variables  
+- Identify the most important predictors through multiple feature selection methods  
+- Compare statistical and machine learning classification models  
+- Prioritize recall to minimize missed high-risk patients  
 
 
 ## 🧠 Key Features
 
-- Early-stage prediction using clinical and demographic data  
-- Feature importance analysis for medical interpretability  
-- Comparison of multiple machine learning models  
-- Data-driven risk stratification  
+- Clinically informed handling of invalid zero values and outliers  
+- Two complementary feature selection methods: **LASSO** and **stepwise logistic regression (AIC)**  
+- Comparison of 4 classifiers with ROC-AUC, recall, and **F2-score**  
+- Calibration and recall analysis for screening suitability  
 
 
 ## 🗂️ Dataset
 
-The dataset includes medical and demographic information of pregnant women:
+**Pima Indians Diabetes Dataset**
 
-- Age  
-- Body Mass Index (BMI)  
-- Blood glucose level  
-- Blood pressure  
-- Insulin level  
-- Family history of diabetes  
-- Pregnancy-related indicators  
-
-These variables are commonly used in GDM prediction studies and are clinically relevant risk factors.
+- **768 patients** (500 non-diabetic / 268 diabetic, **~35% positive class**)  
+- **8 clinical features:** Pregnancies, Glucose (2-hour OGTT plasma glucose), Blood Pressure, Skin Thickness, Insulin, BMI, Diabetes Pedigree Function (family history), Age  
+- **Target:** Diagnosis (1 = diabetes, 0 = no diabetes)  
 
 
 ## ⚙️ Methodology
 
-The project follows a standard machine learning pipeline:
-
 1. Data preprocessing  
-   - Handling missing values  
-   - Feature scaling  
-   - Outlier treatment  
+   - Zero values in Glucose, Blood Pressure, Skin Thickness, Insulin, and BMI treated as missing (physiologically impossible) and imputed with the mean  
+   - Outliers handled with the IQR rule by **capping** instead of removal, to avoid data loss  
+   - Z-score standardization (`caret::preProcess`)  
 
 2. Exploratory Data Analysis (EDA)  
-   - Distribution analysis  
-   - Correlation analysis  
+   - Histograms, boxplots, pair plots, scatter plots, bar plots (ggplot2)  
+   - Glucose showed the strongest correlation with diagnosis (r = 0.47), followed by BMI (0.29) and Age (0.24)  
 
-3. Model Development  
-   - Logistic Regression  
+3. Feature Selection  
+   - **LASSO** (cross-validated logistic regression): kept 7 of 8 features, removing Blood Pressure  
+   - **Stepwise logistic regression** (bidirectional, AIC): selected Glucose, BMI, Pregnancies, Pedigree (AIC 726.84 → 723.12)  
+
+4. Model Development  
+   - Logistic Regression (L2 regularization)  
+   - Support Vector Machine (RBF kernel, grid search)  
    - Random Forest  
-   - Support Vector Machine  
-   - K-Nearest Neighbors  
+   - XGBoost  
 
-4. Model Evaluation  
-   - Accuracy  
-   - Precision / Recall  
-   - F1-score  
-   - ROC-AUC  
+5. Validation  
+   - Stratified 80/20 train/test split  
+   - 5-fold cross-validation  
 
 
 ## 📊 Model Evaluation
 
-Model performance is evaluated using classification metrics:
-
-- **Accuracy**: Overall correctness  
-- **Precision / Recall**: Class-wise performance  
-- **F1-score**: Balance between precision and recall  
-- **ROC-AUC**: Ability to distinguish between classes  
-
-Machine learning models are widely used in healthcare prediction tasks due to their ability to identify complex patterns in clinical data.
+- **ROC-AUC**: ability to distinguish between classes  
+- **Recall & F2-score** (primary focus): F2 weights recall higher, since missed diagnoses carry higher clinical cost  
+- **Accuracy / Precision / F1-score**  
+- **Calibration plots**: whether predicted probabilities match observed outcomes  
 
 
 ## 🛠️ Tech Stack
 
-- Python  
-- Pandas / NumPy  
-- Scikit-learn  
-- Matplotlib / Seaborn  
-- Jupyter Notebook  
+<!-- 실제 사용한 R 패키지가 더 있다면 추가하세요 (예: glmnet, e1071) -->
+
+- R  
+- caret  
+- ggplot2  
+- R Markdown  
 
 
 ## 📁 Project Structure
 
+<!-- 실제 저장소 폴더 구조에 맞게 수정하세요 -->
+
 ```
-Gestational-Diabetes-Prediction/
+Diabetes-Risk-Prediction/
 │
 ├── data/                # Dataset
-├── notebooks/           # EDA & modeling
-├── src/                 # ML pipeline
-├── models/              # Trained models
-├── results/             # Evaluation results
+├── analysis/            # R Markdown files (EDA, feature selection, modeling)
+├── results/             # Plots & evaluation results
+├── report/              # Final project report
 └── README.md
 ```
 
 
 ## 🚀 Results
 
-- Successfully built a classification model for GDM prediction  
-- Identified key risk factors such as BMI and glucose level  
-- Demonstrated the feasibility of early prediction using ML  
+| Model | ROC-AUC |
+|---|---|
+| **Logistic Regression** | **0.901** |
+| SVM (RBF) | 0.894 |
+| Random Forest | 0.855 |
+| XGBoost | 0.834 |
+
+- **Logistic Regression** achieved the highest ROC-AUC (**0.901**), showing that careful preprocessing and feature selection outweighed model complexity on this small dataset  
+- **SVM** had strong discrimination (0.894) but low recall and unstable calibration, meaning threshold tuning is needed before use in screening  
+- **Glucose, BMI, Pregnancies, and Pedigree** were consistently selected across correlation analysis, LASSO, and stepwise regression  
 
 
 ## 📌 Limitations
 
-- Limited dataset size  
-- Lack of longitudinal patient data  
-- Model generalization requires external validation  
+- The target is a diabetes diagnosis, not confirmed GDM  
+- Single ethnic group (Pima Indian heritage), limiting external validity  
+- Glucose comes from a 2-hour OGTT, so the model does not replace glucose testing  
+- Missing key predictors such as HbA1c, cholesterol, genetic markers, and lifestyle data  
+- Class imbalance (~35% positive) was not addressed with resampling (e.g., SMOTE)  
 
 
 ## 🔧 Future Work
 
-- Apply advanced models (XGBoost, LightGBM, Neural Networks)  
-- Incorporate real-world hospital data  
-- Deploy as a clinical decision support system  
+- Apply the pipeline to a dataset with confirmed GDM diagnoses and early-pregnancy features  
+- Address class imbalance with SMOTE or threshold optimization  
+- Add explainability (e.g., SHAP) for clinical interpretation  
+- Validate externally on multiethnic, multicenter data  
 
 
 ## 👤 Author
 
-Park, Eunsoo \
-Alamen, Abdalla \
-Wicaksono, Pramudya \
-Onishi, Rei \
-Janga, Ritesh
+Park, Eunsoo  
+Alamen, Abdalla  
+Wicaksono, Pramudya  
+Onishi, Rei  
+Janga, Ritesh  
 
+**My role:** Feature selection (LASSO vs. stepwise AIC), SVM modeling, 5-fold CV framework design, and recall/calibration analysis
 
 
 ## ✔️ Summary
 
-> A machine learning-based healthcare project for early prediction of gestational diabetes using clinical data
+> A recall-focused diabetes risk prediction study on the Pima dataset in R, where Logistic Regression reached ROC-AUC 0.901 and four predictors were consistently selected across feature selection methods
